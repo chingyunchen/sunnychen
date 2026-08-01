@@ -449,6 +449,38 @@
 
   /* bullet 內的引導字不加粗,整行維持一致字重 */
   li b,li strong{font-weight:400;}
+
+  /* footer contact block — shared across every page */
+  footer{display:block;}
+  footer .foot-contact{
+    display:flex;flex-wrap:wrap;column-gap:56px;row-gap:10px;
+    padding-bottom:22px;margin-bottom:22px;
+    border-bottom:1px solid var(--line);
+  }
+  footer .fc-item{display:flex;align-items:baseline;gap:12px;}
+  footer .fc-k{
+    color:var(--grey);
+    font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  footer .fc-v{color:var(--ink);font-size:12px;letter-spacing:-.01em;}
+  footer .fc-links{display:flex;gap:20px;}
+  footer .foot-contact a{
+    color:var(--ink);font-size:12px;text-decoration:none;
+    border-bottom:1px solid var(--line);padding-bottom:2px;
+    transition:color .15s ease,border-color .15s ease;
+  }
+  footer .foot-contact a:hover{
+    color:var(--design,var(--ink));border-color:var(--design,var(--ink));
+  }
+  footer .foot-row{
+    display:grid;grid-template-columns:1fr auto 1fr;
+    align-items:end;gap:16px;
+  }
+  @media (max-width:900px){
+    footer .foot-contact{flex-direction:column;row-gap:12px;}
+    footer .foot-row{grid-template-columns:1fr;gap:14px;}
+  }
 </style>
 </head>
 <body>
@@ -608,9 +640,28 @@
 </div>
 
 <footer>
-  <span class="foot-left">Looking for new opportunities.<br>Ready to relocate and try food somewhere else</span>
+  <div class="foot-contact">
+    <div class="fc-item">
+      <span class="fc-k">Contact</span>
+      <a href="mailto:sunny.chingyunchen@gmail.com">sunny.chingyunchen@gmail.com</a>
+    </div>
+    <div class="fc-item">
+      <span class="fc-k">Based in</span>
+      <span class="fc-v">Munich, Germany</span>
+    </div>
+    <div class="fc-item">
+      <span class="fc-k">Connect</span>
+      <span class="fc-links">
+        <a href="https://www.linkedin.com/in/chingyunchen/" target="_blank" rel="noopener">LinkedIn &#8599;</a>
+        <a href="https://medium.com/@chingyunchen" target="_blank" rel="noopener">Medium &#8599;</a>
+      </span>
+    </div>
+  </div>
+  <div class="foot-row">
+    <span class="foot-left">Looking for new opportunities.<br>Ready to relocate and try food somewhere else</span>
   <span class="foot-mid">©2026 crafted by Sunny Chen</span>
   <span></span>
+  </div>
 </footer>
 
 <script>
