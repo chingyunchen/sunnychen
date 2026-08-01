@@ -1,1 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CareMates APP — Sunny Chen</title>
+<style>
+  :root{
+    --paper:#000000;
+    --ink:#F2F2EE;
+    --grey:#8A8A85;
+    --line:#2A2A29;
+    --panel:#121212;
+    --design:#7C90FF;
+    --pilates:#E0937A;
+    --mono:"Helvetica Neue",Helvetica,Arial,sans-serif; /* all type now Helvetica Neue */
+    --sans:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;animation:none !important;}
+  }
+  body{background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:14px;line-height:1.7;}
+  ::selection{background:var(--ink);color:var(--paper);}
+  a{color:inherit;}
 
+  /* back bar */
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 32px;}
+
+  /* title */
+  header.hero{padding:80px 0 40px;text-align:center;}
+  .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--design);margin-bottom:24px;}
+  h1{font-family:var(--sans);font-weight:700;font-size:clamp(36px,6.4vw,72px);line-height:1.03;letter-spacing:-0.03em;}
+  .lede{max-width:600px;margin:26px auto 0;color:var(--grey);font-size:14px;}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);max-width:600px;margin:40px auto 0;}
+  .meta div{background:var(--paper);padding:18px 22px;text-align:left;}
+  .meta .k{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--grey);}
+  .meta .v{font-family:var(--sans);font-weight:600;font-size:15px;margin-top:4px;}
+
+  /* signature gradient */
+  .signature{
+    max-width:1120px;margin:24px auto 0;height:min(46vw,440px);
+    border-radius:2px;position:relative;overflow:hidden;
+    background:
+      radial-gradient(120% 120% at 78% 30%, rgba(196,142,255,.95), rgba(196,142,255,0) 55%),
+      radial-gradient(90% 90% at 12% 92%, rgba(74,222,168,.95), rgba(74,222,168,0) 55%),
+      linear-gradient(120deg,#2f22e6 0%, #5b3fe0 42%, #8b6ff0 100%);
+  }
+  .signature .float{position:absolute;inset:0;background:
+      radial-gradient(60% 60% at 65% 55%, rgba(120,90,255,.5), transparent 60%);
+      mix-blend-mode:screen;animation:breathe 9s ease-in-out infinite;}
+  @keyframes breathe{0%,100%{transform:scale(1) translate(0,0);opacity:.8;}50%{transform:scale(1.12) translate(-3%,2%);opacity:1;}}
+  @media (prefers-reduced-motion: reduce){.signature .float{animation:none;}}
+  .signature .lbl{position:absolute;top:26px;left:28px;color:rgba(255,255,255,.85);font-size:11px;letter-spacing:.18em;text-transform:uppercase;}
+  .signature .words{position:absolute;right:28px;bottom:24px;color:#fff;font-size:13px;letter-spacing:.06em;font-family:var(--mono);}
+
+  /* sections */
+  section{padding:60px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .tag{display:inline-block;background:color-mix(in srgb,var(--design) 20%, transparent);color:var(--design);
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;margin-bottom:26px;}
+  .tag.warm{background:color-mix(in srgb,var(--pilates) 20%, transparent);color:var(--pilates);}
+  h2{font-family:var(--sans);font-weight:600;font-size:clamp(22px,3vw,30px);letter-spacing:-0.015em;margin-bottom:20px;}
+  h3{font-family:var(--sans);font-weight:600;font-size:18px;margin-bottom:12px;}
+  p{max-width:680px;}
+  p + p{margin-top:1em;}
+  b,strong{font-family:var(--sans);}
+
+  .stat-row{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line);margin:24px 0;}
+  .stat-row div{background:var(--paper);padding:16px 20px;flex:1;min-width:150px;}
+  .stat-row .n{font-family:var(--sans);font-weight:700;font-size:22px;color:var(--design);}
+  .stat-row .l{font-size:12px;color:var(--grey);margin-top:2px;}
+
+  .collage{width:100%;border:1px solid var(--line);margin-top:8px;display:block;}
+
+  /* interviews */
+  .interviews{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:16px;}
+  .iv{border:1px solid var(--line);background:var(--panel);padding:18px;}
+  .iv .avatar{width:100%;aspect-ratio:1;border-radius:50%;background:var(--line) center/cover;margin-bottom:14px;}
+  .iv .nm{font-family:var(--sans);font-weight:600;font-size:15px;}
+  .iv .ro{font-size:11px;color:var(--grey);margin:2px 0 12px;}
+  .iv .qt{font-size:13px;font-style:italic;color:var(--ink);line-height:1.6;}
+  .iv-note{color:var(--grey);font-size:13px;}
+
+  /* journey */
+  .journey{border:1px solid var(--line);background:var(--panel);padding:22px;margin-top:8px;overflow-x:auto;}
+  .journey table{border-collapse:collapse;width:100%;min-width:560px;font-size:12.5px;}
+  .journey td,.journey th{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+  .journey th{background:var(--paper);font-family:var(--sans);font-weight:600;font-size:12px;}
+  .journey .step-c{color:var(--design);font-size:11px;white-space:nowrap;}
+  .persona-row{display:flex;justify-content:space-between;gap:80px;flex-wrap:wrap;margin-bottom:18px;}
+  .persona{max-width:280px;}
+  .persona .who{font-family:var(--sans);font-weight:600;font-size:14px;}
+  .persona .rl{color:var(--grey);font-size:11px;margin-bottom:6px;}
+  .persona p{font-size:12.5px;color:var(--ink);}
+
+  /* product flow */
+  .flow{list-style:none;position:relative;margin-top:8px;}
+  .flow::before{content:"";position:absolute;left:19px;top:14px;bottom:14px;width:1px;background:var(--line);}
+  .flow li{display:grid;grid-template-columns:40px 1fr;gap:20px;padding:14px 0;position:relative;}
+  .flow .dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:9px;color:#fff;text-align:center;line-height:1.05;font-family:var(--sans);font-weight:600;letter-spacing:.02em;z-index:1;}
+  .flow .d1{background:#2f22e6;} .flow .d2{background:#6d5cf0;} .flow .d3{background:#c48eff;}
+  .flow .d4{background:#4adea8;} .flow .d5{background:#3b53e6;} .flow .d6{background:#141414;}
+  .flow .ft{font-family:var(--sans);font-weight:600;font-size:15px;margin-bottom:4px;}
+  .flow ul{margin:0;padding-left:16px;font-size:13px;color:var(--grey);}
+  .flow ul li{display:list-item;padding:1px 0;}
+
+  .figure{background:#fff;padding:12px;margin-top:24px;}
+  .figure img{display:block;width:100%;height:auto;}
+  .fullimg{display:block;width:100%;height:auto;margin-top:24px;}
+
+  /* solution */
+  .callout{padding:0;}
+  .callout .obj{margin-top:14px;font-size:13px;color:var(--grey);}
+  .callout .obj b{color:var(--ink);}
+
+  /* design system / MUI */
+  .mui-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;}
+  .mui-card{border:1px solid var(--line);background:var(--panel);padding:20px;}
+  .mui-card .mh{font-family:var(--sans);font-weight:600;font-size:14px;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--design);display:inline-block;}
+  .mui-card p{font-size:12.5px;color:var(--grey);max-width:none;}
+  .mui-note{margin-top:18px;font-size:12px;color:var(--grey);}
+
+  /* visuals before/after */
+  .vblock{border-top:1px solid var(--line);padding:26px 0;}
+  .vblock:last-child{border-bottom:1px solid var(--line);}
+  .vblock .vh{display:flex;align-items:baseline;gap:12px;margin-bottom:10px;}
+  .vblock .vn{font-family:var(--sans);font-weight:700;font-size:20px;color:var(--design);font-variant-numeric:tabular-nums;}
+  .vblock .vt{font-family:var(--sans);font-weight:600;font-size:18px;}
+  .vblock p{font-size:13.5px;color:var(--ink);}
+  .ba{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:13px;}
+  .ba .before,.ba .after{display:flex;gap:10px;align-items:flex-start;}
+  .ba .before::before{content:"●";color:var(--pilates);font-size:9px;line-height:1.9;}
+  .ba .after::before{content:"●";color:#3DA35D;font-size:9px;line-height:1.9;}
+  .ba .k{color:var(--grey);}
+
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:28px;}
+  .shots .figure{margin-top:0;}
+  .shots .span2{grid-column:1 / -1;}
+
+  /* result */
+  .result-block{border:1px solid var(--line);background:var(--panel);padding:22px 24px;}
+  .result-block + .result-block{margin-top:14px;}
+  .result-block .rh{font-family:var(--sans);font-weight:700;font-size:13px;color:var(--design);margin-bottom:2px;}
+  .result-block .rk{font-family:var(--sans);font-weight:600;margin-bottom:8px;}
+  .result-block p{font-size:13.5px;}
+
+  .learned{list-style:none;display:flex;flex-direction:column;gap:2px;}
+  .learned li{padding:12px 0;padding-left:26px;position:relative;max-width:760px;}
+  .learned li::before{content:"→";position:absolute;left:0;color:var(--design);}
+  /* What I learned -> bullet points */
+  section .learned:not(.obs-list){list-style:disc;padding-left:20px;}
+  section .learned:not(.obs-list) li{padding-left:0;list-style:disc;border-top:none;border-bottom:none;padding-top:4px;padding-bottom:4px;}
+  section .learned:not(.obs-list) li::before{content:none;}
+
+  /* next */
+  .next{background:var(--ink);color:var(--paper);padding:72px 0 40px;}
+  .next .np-label{font-family:var(--sans);font-weight:700;font-size:clamp(30px,6vw,64px);letter-spacing:-0.02em;color:#2b2b2b;margin-bottom:36px;}
+  .next-list{list-style:none;}
+  .next-list li{border-top:1px solid #2c2c2c;}
+  .next-list li:last-child{border-bottom:1px solid #2c2c2c;}
+  .next-list a{display:grid;grid-template-columns:1fr auto auto;gap:24px;align-items:center;padding:22px 0;text-decoration:none;color:var(--paper);transition:padding-left .18s ease,color .15s ease;}
+  .next-list a:hover{padding-left:14px;color:#fff;}
+  .next-list .np-title{font-family:var(--sans);font-weight:600;font-size:clamp(18px,2.4vw,26px);}
+  .next-list .np-role,.next-list .np-year{color:var(--grey);font-size:12px;}
+  .next-list a:hover .np-title{color:var(--design);}
+
+  footer{
+    padding:32px calc(4.5vw + 4px);font-size:11px;color:var(--grey);
+    display:grid;grid-template-columns:1fr auto 1fr;
+    align-items:end;gap:16px;
+    text-align:left;
+  }
+  footer .foot-left{text-align:left;line-height:1.7;}
+  footer .foot-mid{text-align:center;}
+  @media (max-width:760px){
+    footer{grid-template-columns:1fr;gap:14px;}
+    footer .foot-mid{text-align:left;}
+  }
+  :focus-visible{outline:2px solid var(--design);outline-offset:3px;}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){.reveal{opacity:1;transform:none;}}
+
+  @media (max-width:760px){
+    .wrap{padding:0 20px;}
+    .meta{grid-template-columns:1fr;}
+    .interviews{grid-template-columns:1fr;}
+    .mui-grid{grid-template-columns:1fr;}
+    .shots{grid-template-columns:1fr;}
+  }
+
+  /* ---- typography update: Helvetica Neue for content ---- */
+  body{font-family:var(--sans);}
+  h1,.main-h1{
+    font-family:var(--sans);
+    font-size:clamp(1.5rem,4vw,4.5rem);
+    font-weight:500;
+    line-height:1.1;
+    color:var(--ink);
+    margin:0 0 1rem;
+    letter-spacing:-0.02em;
+  }
+  h2,.main-h2{
+    font-family:var(--sans);
+    font-size:clamp(1.25rem,3vw,3rem);
+    font-weight:500;
+    line-height:1.15;
+    color:var(--ink);
+    margin:0 0 1rem;
+    letter-spacing:-0.015em;
+  }
+  /* keep the mono utility voice on labels, numbers & metadata */
+  .eyebrow,.tag,.meta .k,.fig-cap,.note,.sub,.mui-note,footer,
+  .sc,.step-c,.pn,.t-no,.steps .no,.np-role,.np-year,.rh,.lbl,.words,
+  .iv .ro,.persona .rl,.panel-kicker,.vis-head,.ba .k,.stat-row .l,
+  .callout .obj,.placeholder,.work-note,.iv-note{font-family:var(--mono);}
+  /* ---- editorial header (Thermo-Cal style) ---- */
+  header.hero{padding:64px 0 0;text-align:left;}
+  header.hero h1{
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:clamp(2.4rem,8vw,6.5rem);
+    line-height:1.0;
+    letter-spacing:-0.035em;
+    color:var(--ink);
+    margin:0 0 18px;
+  }
+  header.hero .lede{
+    margin:0;
+    max-width:none;
+    color:var(--grey);
+    font-size:clamp(15px,1.8vw,20px);
+    line-height:1.5;
+  }
+  header.hero .meta{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 48px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    margin-top:36px;
+    padding:0;
+    max-width:none;
+    background:none;
+    border-left:none;border-right:none;
+  }
+  header.hero .meta div{background:none;padding:8px 0;text-align:left;}
+  header.hero .meta .k{
+    font-size:10px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--grey);
+    margin-bottom:0;
+    line-height:1.3;
+  }
+  header.hero .meta .v{
+    font-family:var(--sans);
+    font-weight:400;
+    font-size:14px;
+    margin-top:0;
+    line-height:1.4;
+    color:var(--ink);
+  }
+  @media (max-width:760px){
+    header.hero .meta{grid-template-columns:1fr;gap:0;}
+  }
+  .wide{max-width:none;}
+  /* ---- full-width text: match the divider lines ---- */
+  .sub,
+  .wide{max-width:none;}
+  /* ---- everything 16px except section tags ---- */
+  body{font-size:16px;}
+  p,.callout,.sol li,.findings li,.learned li,
+  .vblock p,.phase p,.panel-body p,.result-block p,
+  .flow ul,.iv .qt,.journey table,.journey td,.journey th,
+  .lede,.sub,.fig-cap,.note,.iv-note,.work-note,.mui-note,
+  .iv .nm,.iv .ro,.persona .who,.persona .rl,.persona p,
+  .stat-row .l,.callout .obj,.mui-card p,.mui-card .mh,
+  .ba,.ba .before,.ba .after,.panel-kicker,.hero-sub,
+  .result-block .rh,.result-block .rk,.placeholder,
+  header.hero .meta .k,header.hero .meta .v,
+  footer,.next-list .np-role,.next-list .np-year,
+  .steps .no,.steps .sd,.t-no,.pn,.step-c,.flow .ft,.sec-head,
+  .fullimg + *,.figure .fig-cap{font-size:16px;}
+  .persona-img{height:96px;width:auto;display:block;}
+  .persona-imgs{display:flex;gap:14px;align-items:flex-end;margin-bottom:10px;}
+  .persona > .persona-img{margin-bottom:10px;}
+  /* ---- content text spacing ---- */
+  body{letter-spacing:-.32px;line-height:1.4;}
+  p,.callout,.sol li,.findings li,.learned li,
+  .vblock p,.phase p,.panel-body p,.result-block p,
+  .flow ul,.iv .qt,.journey td,.lede{letter-spacing:-.32px;line-height:1.4;}
+  .journey .step-c{font-size:16px;}
+  header.hero .meta .k{font-size:9px;}
+  header.hero .meta .k{margin-bottom:0;}
+  header.hero .meta div{padding:24px 16px 0;}
+  /* ---- metadata spacing per reference ---- */
+  header.hero .meta{padding:0;row-gap:16px;column-gap:16px;}
+  header.hero .meta div{padding:24px 16px 0;}
+  header.hero .meta .k{margin-bottom:0;}
+  /* ---- metadata: flush left, hairlines top/bottom ---- */
+  header.hero .meta{padding:20px 0;row-gap:16px;column-gap:48px;}
+  header.hero .meta div{padding:0;}
+  /* ---- larger flow dots ---- */
+  .flow .dot{width:76px;height:76px;font-size:12px;}
+  .flow li{grid-template-columns:76px 1fr;}
+  .flow::before{left:37px;}
+  /* ---- unified result style (MG) ---- */
+  .result-lead{
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.4;
+    font-weight:400;
+  }
+  .result-lead b{font-weight:700;}
+  .result-lead .hl{color:var(--design);font-weight:700;}
+  .result-lead + .result-lead{margin-top:1em;}
+  /* ---- open KPI style (reference) ---- */
+  .stat-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:32px;
+    background:none;
+    border:none;
+    margin:36px 0;
+  }
+  .stat-row div{background:none;padding:0;min-width:0;}
+  .stat-row .n{
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:clamp(28px,3.6vw,40px);
+    letter-spacing:-0.02em;
+    color:var(--ink);
+    line-height:1.1;
+  }
+  .stat-row .sl{
+    font-family:var(--sans);
+    font-weight:700;
+    font-size:13px;
+    color:var(--ink);
+    margin-top:8px;
+  }
+  .stat-row .l{
+    font-size:13px;
+    color:var(--grey);
+    line-height:1.45;
+    margin-top:6px;
+  }
+  @media (max-width:760px){
+    .stat-row{grid-template-columns:1fr 1fr;gap:24px;}
+  }
+  /* ---- field research: conducted list & observations ---- */
+  .conducted{list-style:none;margin:24px 0 32px;display:flex;flex-direction:column;gap:8px;}
+  .conducted li{
+    position:relative;padding-left:20px;
+    font-size:16px;color:var(--ink);max-width:66ch;
+  }
+  .conducted li::before{
+    content:"";position:absolute;left:2px;top:.62em;
+    width:6px;height:6px;border-radius:50%;
+    background:#B87BF5;
+  }
+  .obs-h{font-family:var(--sans);font-weight:700;font-size:20px;margin:36px 0 12px;letter-spacing:-.01em;}
+  /* ---- animated aurora hero (replaces signature gradient) ---- */
+  .aurora-hero{
+    position:relative;
+    margin-top:24px;
+    padding:96px 32px 72px;
+    background:#0B0B14;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .aurora-hero .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(70px);
+    opacity:.85;
+    will-change:transform;
+  }
+  .aurora-hero .b1{
+    width:52vw;height:52vw;max-width:760px;max-height:760px;
+    background:radial-gradient(circle, #5652FF 0%, rgba(86,82,255,0) 65%);
+    top:-28%;left:18%;
+    animation:drift1 14s ease-in-out infinite alternate;
+  }
+  .aurora-hero .b2{
+    width:38vw;height:38vw;max-width:560px;max-height:560px;
+    background:radial-gradient(circle, #FEBFFE 0%, rgba(254,191,254,0) 65%);
+    top:-14%;right:6%;
+    opacity:.6;
+    animation:drift2 18s ease-in-out infinite alternate;
+  }
+  .aurora-hero .b3{
+    width:34vw;height:34vw;max-width:500px;max-height:500px;
+    background:radial-gradient(circle, #18E4A2 0%, rgba(24,228,162,0) 65%);
+    bottom:-24%;left:2%;
+    opacity:.45;
+    animation:drift3 16s ease-in-out infinite alternate;
+  }
+  @keyframes drift1{from{transform:translate(0,0) scale(1);}to{transform:translate(9%,7%) scale(1.15);}}
+  @keyframes drift2{from{transform:translate(0,0) scale(1);}to{transform:translate(-12%,10%) scale(1.1);}}
+  @keyframes drift3{from{transform:translate(0,0) scale(1);}to{transform:translate(10%,-8%) scale(1.12);}}
+  @media (prefers-reduced-motion: reduce){
+    .aurora-hero .blob{animation:none;}
+  }
+  .aurora-hero .laptop{
+    position:relative;
+    z-index:1;
+    width:min(880px,86%);
+    height:auto;
+    display:block;
+    filter:drop-shadow(0 30px 60px rgba(0,0,0,.55));
+  }
+  .aurora-hero .aurora-words{
+    position:relative;
+    z-index:1;
+    margin-top:40px;
+    color:rgba(255,255,255,.85);
+    font-size:14px;
+    letter-spacing:.08em;
+  }
+  @media (max-width:760px){
+    .aurora-hero{padding:56px 20px 44px;}
+    .aurora-hero .blob{filter:blur(46px);}
+  }
+  /* ---- 3D flip-up reveal (video-style) ---- */
+  .aurora-hero .stage3d{
+    position:relative;z-index:1;
+    width:min(880px,86%);
+    perspective:1400px;
+  }
+  .aurora-hero .laptop{
+    width:100%;
+    transform-origin:50% 100%;
+    transform:rotateX(78deg) scale(.92);
+    opacity:0;
+  }
+  .aurora-hero .laptop.rise{
+    animation:
+      flipUp 2.6s cubic-bezier(.16,.68,.22,1) forwards,
+      floaty 6s ease-in-out 2.6s infinite;
+  }
+  @keyframes flipUp{
+    0%{transform:rotateX(78deg) scale(.92) translateY(0);opacity:0;}
+    18%{opacity:1;}
+    100%{transform:rotateX(0deg) scale(1) translateY(0);opacity:1;}
+  }
+  @keyframes floaty{
+    0%,100%{transform:rotateX(0deg) scale(1) translateY(0);}
+    50%{transform:rotateX(0deg) scale(1) translateY(-14px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .aurora-hero .laptop{transform:none;opacity:1;}
+    .aurora-hero .laptop.rise{animation:none;}
+  }
+  /* observations: no divider lines */
+  .obs-list{list-style:disc;padding-left:20px;}
+  .obs-list li{border-top:none;border-bottom:none;padding:4px 0;list-style:disc;}
+  .obs-list li::before{content:none;}
+  .obs-list li:last-child{border-bottom:none;}
+  /* ---- professional user journey swimlane ---- */
+  .jmap{
+    position:relative;
+    display:grid;
+    grid-template-columns:150px 1fr;
+    gap:0 18px;
+    margin-top:8px;
+  }
+  .jarrows{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;}
+  .jrail{display:grid;grid-template-rows:96px repeat(4,1fr);}
+  .jstep{display:flex;flex-direction:column;justify-content:center;gap:2px;}
+  .jstep b{font-family:var(--sans);font-weight:700;font-size:14px;}
+  .jstep span{font-size:13px;color:var(--grey);line-height:1.3;}
+  .jlanes{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:96px repeat(4,1fr);
+    background:linear-gradient(100deg,
+      color-mix(in srgb,#FEBFFE 26%, white) 0%,
+      color-mix(in srgb,#18E4A2 20%, white) 48%,
+      color-mix(in srgb,#5652FF 30%, white) 100%);
+    border-radius:4px;
+    padding:20px 12px 24px;
+    gap:26px 12px;
+  }
+  .jhead{
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;
+  }
+  .jhead .jpimgs{display:flex;gap:8px;align-items:flex-end;}
+  .jhead .jpimgs img{height:52px;width:auto;}
+  .jhead .jname{font-family:var(--sans);font-weight:600;font-size:14px;}
+  .jhead .jlogo{
+    font-family:var(--sans);font-weight:700;font-size:18px;letter-spacing:-.01em;
+    background:linear-gradient(120deg,#5652FF,#B87BF5,#FEBFFE);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .jcell{
+    font-size:14.5px;
+    line-height:1.4;
+    text-align:center;
+    align-self:center;
+    padding:4px 6px;
+    position:relative;
+    z-index:1;
+  }
+  .jcell.empty{color:rgba(20,20,20,.35);}
+  @media (max-width:760px){
+    .jmap{grid-template-columns:96px 1fr;}
+    .jstep b{font-size:12px;}
+    .jstep span{font-size:10.5px;}
+    .jcell{font-size:11.5px;}
+    .jhead .jpimgs img{height:36px;}
+    .jlanes{gap:20px 6px;padding:14px 6px 16px;}
+  }
+  .flow .fd{font-size:16px;color:var(--grey);max-width:none;margin:0;}
+  .flow .dot{font-size:20px;letter-spacing:0;font-variant-numeric:tabular-nums;}
+  .callout .obj{color:var(--ink);}
+  .obj-list{list-style:disc;margin:8px 0 0;padding-left:20px;}
+  .obj-list li{color:var(--ink);padding:2px 0;}
+  /* ---- interface design: connected two-column layout ---- */
+  .idmap{position:relative;display:grid;grid-template-columns:1fr 50%;gap:40px;margin-top:8px;}
+  .idlines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;}
+  .idcol{display:flex;flex-direction:column;gap:44px;}
+  .idblock .vh{display:flex;align-items:center;gap:12px;margin-bottom:10px;position:relative;}
+  .idblock .vn{
+    font-family:var(--sans);font-weight:700;font-size:13px;color:#fff;
+    background:var(--design);padding:3px 8px;border-radius:3px;letter-spacing:.02em;
+  }
+  .idblock .vt{font-family:var(--sans);font-weight:600;font-size:18px;}
+  .idnode{width:11px;height:11px;border-radius:50%;background:var(--design);margin-left:auto;flex:none;}
+  .idshots{display:flex;flex-direction:column;gap:120px;justify-content:flex-start;padding-top:6px;}
+  .idshots img{width:100%;height:auto;}
+  @media (max-width:820px){
+    .idmap{grid-template-columns:1fr;gap:28px;}
+    .idlines{display:none;}
+    .idnode{display:none;}
+    .idshots{flex-direction:column;gap:24px;}
+  }
+  /* ---- interface design: pairs + full-width shots ---- */
+  .idpair{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+  .idpair-2{margin-top:56px;}
+  @media (max-width:760px){.idpair{grid-template-columns:1fr;gap:28px;}}
+  header.hero .meta{border-bottom:none;}
+
+  /* ---------- unified top nav ---------- */
+  .topnav{
+    position:sticky;top:0;z-index:50;
+    display:flex;flex-direction:row;flex-wrap:nowrap;
+    align-items:center;justify-content:space-between;
+    padding:18px 32px;
+    background:transparent;
+    border:none;
+  }
+  .nav-logo{
+    text-decoration:none;color:#FFFFFF;
+    font-family:var(--sans);font-weight:400;font-size:12px;
+    letter-spacing:.06em;line-height:1;
+    display:inline-flex;align-items:center;gap:10px;
+    transition:opacity .15s ease;
+  }
+  .nav-logo:hover{opacity:.6;}
+  .nav-logo .arrow{display:inline-block;transition:transform .18s ease;}
+  .nav-logo:hover .arrow{transform:translateX(-4px);}
+  .nav-links{display:flex;gap:44px;}
+  .nav-links a{
+    position:relative;
+    text-decoration:none;color:var(--grey);
+    font-size:11px;font-weight:400;
+    letter-spacing:.14em;text-transform:uppercase;
+    transition:color .15s ease;white-space:nowrap;
+    border:none;background:none;padding:0;
+  }
+  .nav-links a:hover{color:var(--ink);background:none;}
+  .nav-links a.active{color:var(--ink);background:none;}
+  .nav-links a::after{
+    content:"";position:absolute;
+    left:-4px;right:-4px;top:50%;
+    height:1px;background:currentColor;
+    transform:scaleX(0);transform-origin:left center;
+    transition:transform .22s ease;
+  }
+  .nav-links a:hover::after{transform:scaleX(1);}
+  @media (max-width:760px){
+    .topnav{padding:14px 18px;}
+    .nav-links{gap:20px;}
+    .nav-links a{font-size:10px;letter-spacing:.08em;}
+  }
+
+
+  /* rotating globe badge — fixed bottom-right */
+  .globe-badge{
+    position:fixed;right:calc(4.5vw + 4px);bottom:24px;
+    display:flex;align-items:center;justify-content:center;
+    z-index:60;pointer-events:none;
+  }
+  .globe-badge svg{width:44px;height:30px;color:var(--ink);}
+  .globe-badge .mer{
+    transform-box:fill-box;transform-origin:center;
+    animation:spinMeridian 4.5s linear infinite;
+  }
+  .globe-badge .m2{animation-delay:-1.5s;}
+  .globe-badge .m3{animation-delay:-3s;}
+  @keyframes spinMeridian{
+    from{transform:scaleX(1);}
+    to{transform:scaleX(-1);}
+  }
+  @media (prefers-reduced-motion: reduce){.globe-badge .mer{animation:none;}}
+  @media (max-width:640px){.globe-badge{right:calc(4.5vw + 4px);bottom:14px;}.globe-badge svg{width:26px;height:18px;}}
+
+  /* ---- readable measure & quiet section labels ---- */
+  p,.lede,.learned li,.sol li,.findings li,.result-lead,
+  .result-list li,.callout,.iv-note,.phase p,.panel-body p,
+  .vblock p,.result-block p{max-width:66ch;}
+  .phase p{font-size:15px;line-height:1.55;}
+  .phase .fullimg{max-width:620px;margin-top:20px;}
+  .phase{padding:34px 0;}
+
+  .tag,.tag.warm{
+    display:inline-block;
+    background:none;
+    color:var(--grey);
+    font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+    padding:0;margin-bottom:22px;
+  }
+
+  /* bullet 內的引導字不加粗,整行維持一致字重 */
+  li b,li strong{font-weight:400;}
+
+  /* bullet 一律使用 CareMates 主題紫 */
+  .learned,.obs-list,.obj-list,.conducted,
+  .learned li,.obs-list li,.obj-list li{color:var(--ink);}
+  .learned li::marker,.obs-list li::marker,.obj-list li::marker,
+  ul li::marker,ol.flow li::marker{color:#B87BF5;}
+  .conducted li::before{background:#B87BF5;}
+
+  /* Result:小標獨立一行,與內文之間留空行 */
+  .result-block{margin-bottom:32px;background:none;border:none;padding:0;}
+  .result-block:last-child{margin-bottom:0;}
+  .result-block .rk{
+    font-family:var(--sans);font-weight:600;font-size:18px;
+    letter-spacing:-0.01em;margin-bottom:1em;color:var(--ink);
+  }
+  .result-block .result-lead{margin:0;max-width:66ch;}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="nav-logo" href="index.html#work"><span class="arrow">←</span> gooooooo back</a>
+  <div class="nav-links">
+    <a href="index.html#work" class="active">Works</a>
+    <a href="index.html#ai">AI_Projects</a>
+    <a href="pilates.html">Pilates</a>
+    <a href="about.html">About</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>CareMates APP</h1>
+    <p class="lede">CareMates is an AI-assisted web app that streamlines patient admission for elderly care facilities — turning a time-consuming paper workflow into a digital, data-driven system, so caregivers spend more time with patients and less on documentation</p>
+    <div class="meta">
+      <div><div class="k">Client</div><div class="v">CareMates · Caritas Erding</div></div>
+      <div><div class="k">Role</div><div class="v">Lead Designer</div></div>
+      <div><div class="k">Time</div><div class="v">2024</div></div>
+      <div><div class="k">Process</div><div class="v">Field Research → Interviews → User Journey → Product Design → Test</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="aurora-hero" aria-label="CareMates dashboard on an animated brand gradient">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="stage3d"><img class="laptop" id="heroLaptop" src="assets/caremates-01.png" alt="CareMates patient admissions dashboard shown on a MacBook"></div>
+</div>
+
+<main class="wrap">
+
+  <section class="reveal">
+    <span class="tag warm">Problem</span>
+    <p class="wide">In elderly care facilities across Germany, the patient admission process is reaching a breaking point. A growing administrative burden limits caregivers' capacity to focus on what truly matters: people — and calls for a faster, more intuitive way to handle admissions.</p>
+    <div class="stat-row">
+      <div>
+        <div class="n">~5 hrs</div>
+        <div class="sl">Per Admission</div>
+        <div class="l">Each new admission involves multiple paper-based forms</div>
+      </div>
+      <div>
+        <div class="n">5M</div>
+        <div class="sl">People In Need</div>
+        <div class="l">Needing care in Germany today, projected to reach 8M by 2050</div>
+      </div>
+      <div>
+        <div class="n">400K</div>
+        <div class="sl">Caregiver Shortage</div>
+        <div class="l">The shortage intensifies the daily workload</div>
+      </div>
+      <div>
+        <div class="n">€53K+</div>
+        <div class="sl">Annual Cost</div>
+        <div class="l">Wasted per facility — time and money that could support patient care</div>
+      </div>
+    </div>
+    <img class="collage" src="assets/caremates-02.png" alt="Field research photos: caregivers filling paper admission forms, folders, and phone entry at Caritas Erding" loading="lazy" decoding="async">
+  </section>
+
+  <section class="reveal">
+    <span class="tag">How we worked</span>
+    <h2>Field research at Caritas Erding</h2>
+    <p>To deeply understand the current admission process and daily routines in elderly care, we collaborated with Caritas Erding — a facility managing over 180 patients and using the Vivendi NG digital system.</p>
+    <ul class="conducted">
+      <li>1 kick-off interview with the Care Manager (Lisa)</li>
+      <li>3 in-depth interviews with caregivers (5–20 years of experience)</li>
+      <li>1 day of on-site shadowing, following caregivers on their morning tours</li>
+    </ul>
+    <div class="interviews">
+      <div class="iv">
+        <div class="avatar" style="background-image:url('assets/caremates-03.jpg')"></div>
+        <div class="nm">Melanie Hayward</div>
+        <div class="ro">45 · Ex-Caregiver @ Caritas</div>
+        <div class="qt">"The Vivendi app always updates when I need it most — so I just use paper"</div>
+      </div>
+      <div class="iv">
+        <div class="avatar" style="background-image:url('assets/caremates-04.jpg')"></div>
+        <div class="nm">Ursula Kutscherauer</div>
+        <div class="ro">53 · Caregiver @ Caritas Erding</div>
+        <div class="qt">"We already have the data, but we write it again in folders"</div>
+      </div>
+      <div class="iv">
+        <div class="avatar" style="background-image:url('assets/caremates-05.jpg')"></div>
+        <div class="nm">Lucja Lenhart</div>
+        <div class="ro">57 · Caregiver @ Caritas Erding</div>
+        <div class="qt">"I'd love an iPad app that just lets me tap or speak, not type everything"</div>
+      </div>
+    </div>
+    <h3 class="obs-h">Key observations</h3>
+    <ul class="learned obs-list">
+      <li><b>Documentation overload:</b> caregivers must complete multiple forms daily (admission, evaluation, medication, billing), often outside working hours</li>
+      <li><b>Low digital confidence:</b> many older caregivers preferred handwritten notes; some avoided the Vivendi app entirely</li>
+      <li><b>Technical friction:</b> frequent system updates made the app unusable on weekends, forcing a fallback to analog folders</li>
+      <li><b>Mismatch of tools and mindset:</b> even with a digital system, the workflow remained paper-centric due to poor UX and lack of trust</li>
+    </ul>
+  </section>
+
+  <section class="reveal">
+    <span class="tag">How we worked</span>
+    <h2>User journey</h2>
+    <div class="persona-row">
+      <div class="persona"><span class="persona-imgs"><img class="persona-img" src="assets/caremates-06.png" alt="Illustration of George" loading="lazy" decoding="async"><img class="persona-img" src="assets/caremates-07.png" alt="Illustration of Teresa" loading="lazy" decoding="async"></span><div class="who">George &amp; Teresa</div><div class="rl">Son &amp; Mom</div>
+        <p>Teresa needs intensive care from her son George; but he's starting a new job and can't take care of his mother anymore</p></div>
+      <div class="persona"><img class="persona-img" src="assets/caremates-08.png" alt="Illustration of Anna" loading="lazy" decoding="async"><div class="who">Anna</div><div class="rl">Caregiver</div>
+        <p>Anna has worked for Caritas Erding for more than 10 years as a caregiver</p></div>
+    </div>
+    <img class="fullimg" src="assets/caremates-09.png" alt="User journey flow: George requests help for his mom, receives a digital form link, fills the admission form; CareMates generates an AI-based care plan and sends it to the caregiver; Anna reviews the plan, visits, updates it after the visit, and submits SIS adjustments" loading="lazy" decoding="async">
+  </section>
+
+  <section class="reveal">
+    <span class="tag">How we worked</span>
+    <h2>How the product works</h2>
+    <p style="color:var(--grey);font-size:16px;margin-bottom:20px;">Imagine you're a patient who wants to contact Caritas:</p>
+    <ol class="flow">
+      <li><span class="dot d1">01</span>
+        <div><div class="ft">First contact</div>
+          <p class="fd">A new admission request reaches the caregiver, who adds the patient in a few clicks</p></div></li>
+      <li><span class="dot d2">02</span>
+        <div><div class="ft">Digital admission form</div>
+          <p class="fd">Relatives fill out the form in ~15 min; the caregiver is notified and can view the data</p></div></li>
+      <li><span class="dot d3">03</span>
+        <div><div class="ft">AI-supported care analysis</div>
+          <p class="fd">CareMates auto-generates a Structured Information Collection (SIS) and a patient risk assessment</p></div></li>
+      <li><span class="dot d4">04</span>
+        <div><div class="ft">AI-automated care planning</div>
+          <p class="fd">A tailored care plan is drafted for the caregiver to review, learning from their preferences over time</p></div></li>
+      <li><span class="dot d5">05</span>
+        <div><div class="ft">One-click cost estimate</div>
+          <p class="fd">A detailed cost estimate is generated instantly, then finalized with relatives and patients</p></div></li>
+      <li><span class="dot d6">06</span>
+        <div><div class="ft">Digital care contract</div>
+          <p class="fd">The care contract is generated, signed digitally or on paper, and ready to export</p></div></li>
+    </ol>
+    <img class="fullimg" src="assets/caremates-10.jpg" alt="Care manager Lisa Becker at her desk using the CareMates patient admissions dashboard on a monitor, showing the admission status pipeline, calendar, and insight panel" loading="lazy" decoding="async">
+  </section>
+
+  <section class="reveal">
+    <span class="tag">Solution</span>
+    <div class="callout">
+      <p>Design an <b>AI-assisted admission tool</b> that <b>simplifies documentation</b> and enables caregivers to complete admissions in <b>one hour instead of five</b></p>
+      <div class="obj"><b>Objectives</b>
+        <ul class="obj-list">
+          <li>Reduce admission time from 5 hrs → 1 hr</li>
+          <li>Implement data-driven care management</li>
+          <li>Support caregivers with CareMates AI</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <span class="tag">Design system</span>
+    <h2>Why MUI for Figma</h2>
+    <p>Given our small team size and the need to move fast, I aligned with the engineers on adopting <b>MUI for Figma</b> as our shared design system — one library serving design, product, and development at once:</p>
+    <div class="mui-grid">
+      <div class="mui-card">
+        <div class="mh">UI/UX Designers</div>
+        <p>A comprehensive library of components, icons, and styles — customizable to the brand — to deliver work faster</p>
+      </div>
+      <div class="mui-card">
+        <div class="mh">Product Managers</div>
+        <p>Build MVPs efficiently and save hundreds of hours on UI design — a ready-made starting point for a design system</p>
+      </div>
+      <div class="mui-card">
+        <div class="mh">Developers</div>
+        <p>Design consistent, accessible interfaces autonomously, and preview how things look before coding them</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <span class="tag">Visuals</span>
+    <h2>Interface design</h2>
+
+    <div class="idpair">
+      <div class="idblock">
+        <div class="vh"><span class="vn">01</span><span class="vt">Unified Patient Overview</span></div>
+        <p>The dashboard consolidates all patient information into one scannable table, with admission stages shown as progress indicators (1/7–7/7)</p>
+        <div class="ba">
+          <div class="before"><span class="k">Before:</span> Caregivers switched between multiple screens to find admission progress</div>
+          <div class="after"><span class="k">After:</span> All admission statuses are displayed in one glance</div>
+        </div>
+      </div>
+      <div class="idblock">
+        <div class="vh"><span class="vn">02</span><span class="vt">Streamlined Daily Workflow</span></div>
+        <p>A familiar SaaS side navigation brings To-Dos, Communication, Finances, and Team Management together in one place</p>
+        <div class="ba">
+          <div class="before"><span class="k">Before:</span> Each caregiver used isolated tools (calendar, notes, emails, Vivendi app)</div>
+          <div class="after"><span class="k">After:</span> CareMates integrates all daily workflows into one central system</div>
+        </div>
+      </div>
+    </div>
+    <img class="fullimg" src="assets/caremates-11.png" alt="CareMates patient admissions dashboard with status table, calendar, insight panel, and care news on a gradient backdrop" loading="lazy" decoding="async">
+
+    <div class="idpair idpair-2">
+      <div class="idblock">
+        <div class="vh"><span class="vn">03</span><span class="vt">Step-Based Admission Progress</span></div>
+        <p>The header guides caregivers through every stage — from Initial Contact to Export — so they always know where they are and what's next</p>
+        <div class="ba">
+          <div class="before"><span class="k">Before:</span> The admission journey was split across multiple paper forms</div>
+          <div class="after"><span class="k">After:</span> All steps are clearly shown within a single digital flow</div>
+        </div>
+      </div>
+      <div class="idblock">
+        <div class="vh"><span class="vn">04</span><span class="vt">Smart Data Table for Evaluation</span></div>
+        <p>A dynamic scoring table lets caregivers mark assessments directly in the interface; scores are auto-summarized and fed into the AI model</p>
+        <div class="ba">
+          <div class="before"><span class="k">Before:</span> Evaluation data was entered manually and retyped for reporting</div>
+          <div class="after"><span class="k">After:</span> The system auto-calculates and stores all inputs for instant documentation</div>
+        </div>
+      </div>
+    </div>
+    <img class="fullimg" src="assets/caremates-12.png" alt="CareMates SIS report page for patient Ilse Schön with topic sections and the smart evaluation scoring table on a gradient backdrop" loading="lazy" decoding="async">
+  </section>
+
+  <section class="reveal">
+    <span class="tag">Result</span>
+    <div class="result-block">
+      <div class="rk">For CareMates — Grow &amp; Move Fast</div>
+      <p class="result-lead">CareMates was recognized with the <span class="hl">Strascheg Award</span> and several startup competitions, validating both the market potential and the relevance of the problem. These wins reinforced our belief that meaningful innovation comes from combining user needs, business viability, and a clear product vision</p>
+    </div>
+    <div class="result-block">
+      <div class="rk">For Users — Simplicity &amp; Efficiency</div>
+      <p class="result-lead">This is only the beginning. We'll keep working closely with users, validate our assumptions through ongoing research, and refine the experience on real feedback — while meeting the highest standards of privacy and confidentiality in compliance with EU regulations</p>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <span class="tag">What I learned</span>
+    <ul class="learned">
+      <li>CareMates was my first experience leading a product as a <b>Design Lead</b> — contributing across the entire lifecycle, from defining the vision and shaping strategy to building brand identity, running research, and designing the experience</li>
+      <li>Learned to balance creativity with <b>strategic thinking</b>, collaborate across disciplines, and make design decisions that align both user needs and business goals</li>
+      <li>Strengthened my confidence in <b>facilitating discussions, driving alignment, and prioritizing initiatives</b> that create meaningful impact</li>
+      <li>Most proud of what the team accomplished together — it gave me a broader perspective on building products that are functional, scalable, empathetic, and human-centered</li>
+    </ul>
+  </section>
+
+</main>
+
+<div class="next">
+  <div class="wrap">
+    <div class="np-label">next project</div>
+    <ul class="next-list">
+      <li><a href="work-mg-landing.html">
+        <span class="np-title">MG Landing Page Analysis &amp; Rebrand</span>
+        <span class="np-role">UX Research · Landing Page</span>
+        <span class="np-year">2025</span>
+      </a></li>
+      <li><a href="work-celonis.html">
+        <span class="np-title">Celonis Visual Editor</span>
+        <span class="np-role">UX Designer</span>
+        <span class="np-year">2023</span>
+      </a></li>
+      <li><a href="work-caremates-branding.html">
+        <span class="np-title">Caremates Branding</span>
+        <span class="np-role">Brand Identity</span>
+        <span class="np-year">2024</span>
+      </a></li>
+    </ul>
+  </div>
+</div>
+
+<footer>
+  <span class="foot-left">Looking for new opportunities.<br>Ready to relocate and try food somewhere else</span>
+  <span class="foot-mid">©2026 crafted by Sunny Chen</span>
+  <span></span>
+</footer>
+
+<script>
+  // 3D flip-up of the hero laptop when it enters view
+  (function(){
+    const lp=document.getElementById('heroLaptop');
+    if(!lp) return;
+    const obs=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting){ lp.classList.add('rise'); obs.disconnect(); } });
+    },{threshold:.35});
+    obs.observe(lp.parentElement);
+  })();
+
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+  }, {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+</script>
+
+
+<div class="globe-badge" aria-hidden="true">
+  <svg viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="1.6">
+    <ellipse cx="32" cy="22" rx="30" ry="20"/>
+    <ellipse class="mer m1" cx="32" cy="22" rx="30" ry="20"/>
+    <ellipse class="mer m2" cx="32" cy="22" rx="30" ry="20"/>
+    <ellipse class="mer m3" cx="32" cy="22" rx="30" ry="20"/>
+    <line x1="2" y1="22" x2="62" y2="22"/>
+    <ellipse cx="32" cy="22" rx="30" ry="8.5"/>
+  </svg>
+</div>
+
+</body>
+</html>
