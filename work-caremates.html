@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#0F0F0F">
 <title>CareMates APP — Sunny Chen</title>
 <style>
   :root{
@@ -762,6 +766,51 @@
   footer .foot-credit{color:#C9C9C3;}
 
   footer .foot-credit{color:#ffffff4d;}
+
+  
+  }
+
+  
+
+  
+
+  
+
+  
+
+  /* interface shots — no backdrop, held to a narrower measure */
+  .shot{
+    margin-top:24px;
+    display:flex;justify-content:center;
+    background:none;padding:0;
+  }
+  .shot .fullimg{
+    margin-top:0;
+    width:78%;
+    border-radius:6px;
+  }
+  @media (max-width:760px){
+    .shot .fullimg{width:100%;}
+  }
+
+  /* cover — slow breathing zoom, keeps the transparent PNG over the live aurora */
+  @keyframes heroBreathe{
+    0%   {transform:scale(1);}
+    50%  {transform:scale(1.035);}
+    100% {transform:scale(1);}
+  }
+  .aurora-hero .laptop{
+    transform:none;opacity:1;
+    transform-origin:50% 52%;
+    animation:heroBreathe 14s ease-in-out infinite;
+    will-change:transform;
+  }
+  .aurora-hero .laptop.rise{
+    animation:heroBreathe 14s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion:reduce){
+    .aurora-hero .laptop,.aurora-hero .laptop.rise{animation:none;}
+  }
 </style>
 </head>
 <body>
@@ -959,7 +1008,9 @@
         </div>
       </div>
     </div>
-    <img class="fullimg" src="assets/caremates-11.png" alt="CareMates patient admissions dashboard with status table, calendar, insight panel, and care news on a gradient backdrop" loading="lazy" decoding="async">
+    <div class="shot shot-a">
+      <img class="fullimg" src="assets/caremates-11.png" alt="CareMates patient admissions dashboard: status table, calendar, insight dashboard, and care news" loading="lazy" decoding="async">
+    </div>
 
     <div class="idpair idpair-2">
       <div class="idblock">
@@ -979,7 +1030,9 @@
         </div>
       </div>
     </div>
-    <img class="fullimg" src="assets/caremates-12.png" alt="CareMates SIS report page for patient Ilse Schön with topic sections and the smart evaluation scoring table on a gradient backdrop" loading="lazy" decoding="async">
+    <div class="shot shot-b">
+      <img class="fullimg" src="assets/caremates-12.png" alt="CareMates SIS report page for patient Ilse Schön with topic sections and the smart evaluation scoring table" loading="lazy" decoding="async">
+    </div>
   </section>
 
   <section class="reveal">
