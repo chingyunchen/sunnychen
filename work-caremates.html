@@ -814,6 +814,48 @@
     .shot{margin-top:30px;}
     .shot .fullimg{width:100%;}
   }
+
+  /* readability on black: body copy steps back to grey, small headings stay white */
+  main p,
+  main li,
+  main td,
+  main dd,
+  main .sub,
+  main .lede,
+  main .qt,
+  main .fd,
+  main .obj,
+  main blockquote{
+    color:var(--grey);
+  }
+  main h1, main h2, main h3, main h4,
+  main .vt, main .mh, main .who, main .rk, main .sl,
+  main .sec-head, main .ft, main .n,
+  main .ba .k,
+  main strong, main b{
+    color:var(--ink);
+  }
+
+  /* out-specify the older per-component colours so body copy stays grey */
+  main .iv .qt,
+  main .persona p,
+  main .vblock p,
+  main .phase p,
+  main .callout .obj,
+  main .conducted li,
+  main .obj-list li,
+  main .learned li,
+  main .obs-list li,
+  main .sol li,
+  main .findings li{
+    color:var(--grey);
+  }
+  main .callout .obj b,
+  main .persona p b,
+  main .vblock p b,
+  main .phase p b{
+    color:var(--ink);
+  }
 </style>
 </head>
 <body>
